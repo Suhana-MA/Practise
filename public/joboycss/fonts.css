@@ -1,0 +1,46 @@
+
+
+/* font converted using font-converter.net. thank you! */
+@font-face {
+  font-family: "Poppins-Regular";
+  src: url("../fonts/Poppins-Regular.eot"); /* IE9 Compat Modes */
+  src: url("../fonts/Poppins-Regular.eot?#iefix") format("embedded-opentype"), /* IE6-IE8 */
+    url("../fonts/Poppins-Regular.otf") format("opentype"), /* Open Type Font */
+    url("../fonts/Poppins-Regular.svg") format("svg"), /* Legacy iOS */
+    url("../fonts/Poppins-Regular.ttf") format("truetype"), /* Safari, Android, iOS */
+    url("../fonts/Poppins-Regular.woff") format("woff"), /* Modern Browsers */
+    url("../fonts/Poppins-Regular.woff2") format("woff2"); /* Modern Browsers */
+  font-weight: normal;
+  font-style: normal;
+}
+
+
+@font-face {
+  font-family: "Poppins-Medium";
+  src: url("../fonts/Poppins-Medium.eot"); /* IE9 Compat Modes */
+  src: url("../fonts/Poppins-Medium.eot?#iefix") format("embedded-opentype"), /* IE6-IE8 */
+    url("../fonts/Poppins-Medium.otf") format("opentype"), /* Open Type Font */
+    url("../fonts/Poppins-Medium.svg") format("svg"), /* Legacy iOS */
+    url("../fonts/Poppins-Medium.ttf") format("truetype"), /* Safari, Android, iOS */
+    url("../fonts/Poppins-Medium.woff") format("woff"), /* Modern Browsers */
+    url("../fonts/Poppins-Medium.woff2") format("woff2"); /* Modern Browsers */
+  font-weight: 500;
+  font-style: normal;
+}
+
+
+@font-face {
+  font-family: "Poppins-SemiBold";
+  src: url("../fonts/Poppins-SemiBold.eot"); /* IE9 Compat Modes */
+  src: url("../fonts/Poppins-SemiBold.eot?#iefix") format("embedded-opentype"), /* IE6-IE8 */
+    url("../fonts/Poppins-SemiBold.otf") format("opentype"), /* Open Type Font */
+    url("../fonts/Poppins-SemiBold.svg") format("svg"), /* Legacy iOS */
+    url("../fonts/Poppins-SemiBold.ttf") format("truetype"), /* Safari, Android, iOS */
+    url("../fonts/Poppins-SemiBold.woff") format("woff"), /* Modern Browsers */
+    url("../fonts/Poppins-SemiBold.woff2") format("woff2"); /* Modern Browsers */
+  font-weight: 600;
+  font-style: normal;
+}
+
+
+
