@@ -1,7 +1,30 @@
+"use client";
 import Image from "next/image";
 import styles from "../page.module.css"; 
+import { useEffect } from "react";
+
 
 export default function Header() {
+    useEffect(() => {
+    const navbar = document.querySelector("header");
+    let scrollPrev = window.pageYOffset;
+
+    const handleScroll = () => {
+      const scrollCur = window.pageYOffset;
+      if (scrollPrev > scrollCur) {
+        navbar.style.top = "0";
+      } else {
+        navbar.style.top = "-90px";
+      }
+      scrollPrev = scrollCur;
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
+  
   return (
     <>
       <meta charSet="UTF-8" />

@@ -22,7 +22,11 @@ export default function Team() {
             </p>
             <ul>
               <li>
-                <a href="#">
+                <a
+                    href="https://www.linkedin.com/in/jeevanvarghese/" // replace with actual LinkedIn
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
                   <img src="joboyimages/linked-in.png" alt="Jeevan K Varghese" />
                 </a>
               </li>
@@ -41,7 +45,11 @@ export default function Team() {
             </p>
             <ul>
               <li>
-                <a href="#">
+                <a
+                    href="https://www.linkedin.com/in/jees-v-kariyil-2a190518/" // replace with actual LinkedIn
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
                   <img src="joboyimages/linked-in.png" alt="Jees V Kariyil" />
                 </a>
               </li>
