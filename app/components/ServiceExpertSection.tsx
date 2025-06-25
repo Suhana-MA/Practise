@@ -1,22 +1,62 @@
-
 "use client";
 
-import { useState } from "react";
-import { partnerCountriesData } from '../data/countries';
+import React, { useEffect, useState, createContext, useContext } from "react";
 
+// Define country interface
+interface Country {
+  country_id: string;
+  name: string;
+  url: string;
+}
+
+// Create Context
+const CountryContext = createContext<{ countries: Country[] }>({ countries: [] });
+
+// CountryProvider within the same file
+const CountryProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+  const [countries, setCountries] = useState<Country[]>([]);
+
+  useEffect(() => {
+    const fetchCountries = async () => {
+      try {
+        const res = await fetch("http://localhost:5000/api/country/list", {
+          headers: {
+            Authorization: "Basic YWRtaW46MTIzNA==",
+            session: "G80C80K8",
+          },
+        });
+        const json = await res.json();
+        if (json.status === "success") {
+          setCountries(json.data);
+        }
+      } catch (err) {
+        console.error("Error fetching countries:", err);
+      }
+    };
+
+    fetchCountries();
+  }, []);
+
+  return (
+    <CountryContext.Provider value={{ countries }}>
+      {children}
+    </CountryContext.Provider>
+  );
+};
+
+// Main component that uses country data
 const ServiceExpertSection: React.FC = () => {
-  const [selectedCountry, setSelectedCountry] = useState<number>(0);
+  const [selectedCountry, setSelectedCountry] = useState<string>("");
+  const { countries } = useContext(CountryContext);
 
   const getLink = () => {
-    console.log("Selected country value:", selectedCountry);
-
-    if (selectedCountry === 0) {
+    if (!selectedCountry) {
       alert("Please select your country.");
       return;
     }
 
-    const selectedCountryData = partnerCountriesData.find(
-      country => country.id === selectedCountry
+    const selectedCountryData = countries.find(
+      (country) => country.country_id === selectedCountry
     );
 
     if (selectedCountryData) {
@@ -39,11 +79,11 @@ const ServiceExpertSection: React.FC = () => {
               <select
                 className="form-ctrl-p form-control"
                 value={selectedCountry}
-                onChange={(e) => setSelectedCountry(Number(e.target.value))}
+                onChange={(e) => setSelectedCountry(e.target.value)}
               >
-                <option value={0}>SELECT YOUR COUNTRY</option>
-                {partnerCountriesData.map((country) => (
-                  <option key={country.id} value={country.id}>
+                <option value="">SELECT YOUR COUNTRY</option>
+                {countries.map((country) => (
+                  <option key={country.country_id} value={country.country_id}>
                     {country.name}
                   </option>
                 ))}
@@ -67,4 +107,11 @@ const ServiceExpertSection: React.FC = () => {
   );
 };
 
-export default ServiceExpertSection;
+// Wrap the section with its local provider
+const ServiceExpertSectionWithProvider = () => (
+  <CountryProvider>
+    <ServiceExpertSection />
+  </CountryProvider>
+);
+
+export default ServiceExpertSectionWithProvider;
