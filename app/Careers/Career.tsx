@@ -62,17 +62,7 @@ export default function CareerPage(): React.ReactElement {
   return (
     <>
     
-    <>
-      {/* External Scripts in Order */}
-      <Script src="https://code.jquery.com/jquery-3.0.0.js" strategy="beforeInteractive" />
-      <Script src="https://code.jquery.com/jquery-migrate-3.3.2.js" strategy="beforeInteractive" />
-      {/* Optional: replace with CDN or local version */}
-      <Script src="/joboyjs/jcarousellite_1.0.1c4.js" strategy="afterInteractive" />
-      <Script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" strategy="afterInteractive" />
-      <Script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.min.js" strategy="afterInteractive" />
-      <Script src="/joboyjs/owl.carousel.min.js" strategy="afterInteractive" />
-      <Script src="/joboyjs/main.js" strategy="afterInteractive" />
-    </>
+    
     <section className="pb40 pt40">
       <div className="container">
         <h1 className="h1-about text-center pt20 pb30">{heading}</h1>
@@ -96,18 +86,16 @@ type JobAccordionProps = {
 };
 
 function JobAccordion({ job, index }: JobAccordionProps) {
-  const collapseId = `collapse${index}`;
+  const [isOpen, setIsOpen] = useState(false);
+
+  const toggleAccordion = () => setIsOpen(!isOpen);
 
   return (
     <div className="card mb-0">
       <div className="card-header">
         <button
           className="btn btn-link w-100 text-left d-flex justify-content-between align-items-center"
-          type="button"
-          data-toggle="collapse"
-          data-target={`#${collapseId}`}
-          aria-expanded="false"
-          aria-controls={collapseId}
+          onClick={toggleAccordion}
         >
           <span className="card-title">{job.title}</span>
           <span className="btn book-now-btn">Read More</span>
@@ -115,18 +103,19 @@ function JobAccordion({ job, index }: JobAccordionProps) {
       </div>
 
 
-      <div id={collapseId} className="collapse card-body" data-parent="#accordion">
-        <div className="row">
-          <div className="col-md-8">
-            {job.description && <p>{job.description}</p>}
-            {job.responsibilitiesTitle && <h3>{job.responsibilitiesTitle}</h3>}
-            {job.responsibilities && (
-              <ol className="ollist">
-                {job.responsibilities.map((item, idx) => (
-                  <li key={idx}>{item}</li>
-                ))}
-              </ol>
-            )}
+      {isOpen && (
+        <div className="card-body">
+          <div className="row">
+            <div className="col-md-8">
+              {job.description && <p>{job.description}</p>}
+              {job.responsibilitiesTitle && <h3>{job.responsibilitiesTitle}</h3>}
+              {job.responsibilities && (
+                <ol className="ollist">
+                  {job.responsibilities.map((item, idx) => (
+                    <li key={idx}>{item}</li>
+                  ))}
+                </ol>
+              )}
             {job.keyRequirementsTitle && <h3>{job.keyRequirementsTitle}</h3>}
             {job.keyRequirements && (
               <ol className="ollist">
@@ -173,6 +162,7 @@ function JobAccordion({ job, index }: JobAccordionProps) {
           </div>
         </div>
       </div>
+      )}
     </div>
 
     
