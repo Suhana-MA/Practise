@@ -1,13 +1,29 @@
-"use client"; 
+
+"use client";
 
 import { useState } from "react";
+import { partnerCountriesData } from '../data/countries';
 
-export default function ServiceExpertSection() {
-  const [selectedCountry, setSelectedCountry] = useState(0);
+const ServiceExpertSection: React.FC = () => {
+  const [selectedCountry, setSelectedCountry] = useState<number>(0);
 
   const getLink = () => {
     console.log("Selected country value:", selectedCountry);
-    
+
+    if (selectedCountry === 0) {
+      alert("Please select your country.");
+      return;
+    }
+
+    const selectedCountryData = partnerCountriesData.find(
+      country => country.id === selectedCountry
+    );
+
+    if (selectedCountryData) {
+      window.location.href = selectedCountryData.url;
+    } else {
+      alert("Selected country not found.");
+    }
   };
 
   return (
@@ -16,23 +32,21 @@ export default function ServiceExpertSection() {
         <div className="row">
           <div className="col-sm-12 col-md-5">
             <h4 className="white-font">Are you a service expert?</h4>
-            <p className="yellow-font">Join worlds Largest Service Network!</p>
+            <p className="yellow-font">Join world's Largest Service Network!</p>
           </div>
           <div className="col-sm-6 col-md-4">
             <div className="form-group select">
               <select
                 className="form-ctrl-p form-control"
-                id="link_select"
                 value={selectedCountry}
-                onChange={(e) => setSelectedCountry(e.target.value)}
+                onChange={(e) => setSelectedCountry(Number(e.target.value))}
               >
                 <option value={0}>SELECT YOUR COUNTRY</option>
-                <option value={1}>Azerbaijan</option>
-                <option value={2}>Canada</option>
-                <option value={3}>India</option>
-                <option value={4}>United Arab Emirates</option>
-                <option value={5}>United Kingdom</option>
-                <option value={7}>South Africa</option>
+                {partnerCountriesData.map((country) => (
+                  <option key={country.id} value={country.id}>
+                    {country.name}
+                  </option>
+                ))}
               </select>
             </div>
           </div>
@@ -41,7 +55,7 @@ export default function ServiceExpertSection() {
               <button
                 className="btn book-now-btn btn-block"
                 onClick={getLink}
-                type="button" 
+                type="button"
               >
                 Register as a Partner
               </button>
@@ -51,4 +65,6 @@ export default function ServiceExpertSection() {
       </div>
     </section>
   );
-}
+};
+
+export default ServiceExpertSection;
