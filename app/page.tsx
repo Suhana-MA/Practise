@@ -9,6 +9,7 @@ import Hero from "./Home/Hero";
 import Cities from "./components/Cities";
 import Feature from "./Home/Feature";
 import Content from "./Home/Content";
+import NewsAndTestimonials from "./Home/news";
 
 
 
@@ -23,7 +24,8 @@ export default function Home() {
       <Feature />
         <Content />
         
-       
+       <NewsAndTestimonials />
+               
       <Cities />
       
       
