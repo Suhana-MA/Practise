@@ -59,30 +59,7 @@ export default function Feature(): React.ReactElement {
   }, []);
 
   // Initialize slider functionality after data loads
-  useEffect(() => {
-    if (data && sliderRef.current) {
-      // Simple auto-scroll functionality for services slider
-      const slider = sliderRef.current;
-      const slides = slider.querySelectorAll('.slide');
-      let currentIndex = 0;
-      
-      const autoSlide = setInterval(() => {
-        slides.forEach((slide, index) => {
-          const slideElement = slide as HTMLElement;
-          if (index === currentIndex) {
-            slideElement.style.opacity = '1';
-            slideElement.style.transform = 'translateX(0)';
-          } else {
-            slideElement.style.opacity = '0.7';
-            slideElement.style.transform = 'translateX(20px)';
-          }
-        });
-        currentIndex = (currentIndex + 1) % slides.length;
-      }, 2000);
-
-      return () => clearInterval(autoSlide);
-    }
-  }, [data]);
+ 
 
   if (loading) return <div className="text-center pt40">Loading...</div>;
   if (error || !data) return <div className="text-center pt40">Error loading content.</div>;
@@ -92,30 +69,34 @@ export default function Feature(): React.ReactElement {
   return (
     <>
       {/* Services Slider */}
-      <section className="popular-services">
+      <section className="popular-services" style= {{ padding: '40px 0'}}>
         <div className="container">
-          <div className="customer-logos slider" ref={sliderRef}>
+          <div className="customer-logos slider" ref={sliderRef} style={{display: 'flex',  justifyContent: 'center', gap: '30px', flexWrap: 'wrap' }}>
             {servicesSlider.map((item, index) => (
               <div 
                 className="slide" 
                 key={index}
-                style={{
-                  transition: 'all 0.5s ease-in-out',
-                  display: 'inline-block',
-                  margin: '0 10px'
-                }}
+                
               >
-                <div className={`features text-center mt-25 pb-20`}>
+                <div className={`features bg${index} text-center mt-25 pb-20`}>
                   <div className="icon mb-20">
                     {item.image && (
                       <img 
-                        src={`/${item.image}`}
-                         alt={item.alt || "Service"} 
+                        src={item.image.startsWith('http') ? item.image : `/${item.image}`}
+                        alt={item.alt || item.title || "Service"} 
                         style={{ maxWidth: '80px', height: 'auto' }}
                         onError={(e) => {
                           console.error(`Failed to load image: /${item.image}`);
-                          console.error('Full error:', e);
-                          e.currentTarget.style.display = 'none';
+                          console.error('Full error:', item);
+                           const target = e.currentTarget;
+
+                           if (!target.src.includes('joboyimages/')) {
+                            console.log('Trying alternative path with joboyimages/');
+                            target.src = `joboyimages/${item.image.split('/').pop()}`;
+                          } else {
+                            target.style.display = 'none';
+                          }
+
                         }}
                         onLoad={() => {
                           console.log(`Successfully loaded:/${item.image}`);
@@ -129,7 +110,7 @@ export default function Feature(): React.ReactElement {
                 </div>
               </div>
             ))}
-          </div>
+          </div> 
         </div>
       </section>
 
