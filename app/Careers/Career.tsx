@@ -2,6 +2,7 @@
 
 import React, { useEffect, useState } from "react";
 import Script from "next/script";
+import { fetchPageContent }  from "../../utils/api";
 
 type JobData = {
   title: string;
@@ -23,38 +24,31 @@ export default function CareerPage(): React.ReactElement {
   const [jobs, setJobs] = useState<JobData[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
+  
 
-  useEffect(() => {
-    async function fetchCareersData() {
-      try {
-        const res = await fetch("http://localhost:5000/api/page/get-page", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ slug_url: "careers" }),
-        });
+ useEffect(() => {
+  async function fetchCareersData() {
+    try {
+      const data = await fetchPageContent("careers");
 
-        if (!res.ok) throw new Error(`HTTP ${res.status}`);
-        const data = await res.json();
-
-        if (data && data.content) {
-          setHeading(data.content.heading || "Careers at Joboy");
-          setSubheading1(data.content.subHeading1 || "");
-          setSubheading2(data.content.subHeading2 || "");
-          setJobs(data.content.jobs || []);
-        }
-
-        setLoading(false);
-      } catch (err) {
-        console.error("Error fetching careers data:", err);
-        setError(true);
-        setLoading(false);
+      if (data && data.content) {
+        setHeading(data.content.heading || "Careers at Joboy");
+        setSubheading1(data.content.subHeading1 || "");
+        setSubheading2(data.content.subHeading2 || "");
+        setJobs(data.content.jobs || []);
       }
-    }
 
-    fetchCareersData();
-  }, []);
+      setLoading(false);
+    } catch (err) {
+      console.error("Error fetching careers data:", err);
+      setError(true);
+      setLoading(false);
+    }
+  }
+
+  fetchCareersData();
+}, []);
+
 
   if (loading) return <div className="text-center pt40">Loading job openings...</div>;
   if (error) return <div className="text-center pt40">Error loading career data.</div>;

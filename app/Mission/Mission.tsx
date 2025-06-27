@@ -1,5 +1,7 @@
 "use client";
 import React, { useEffect, useState } from "react";
+import { fetchPageContent }  from "../../utils/api";
+
 
 
 interface ImageData {
@@ -67,33 +69,22 @@ export default function MissionPage(): React.ReactElement {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
 
-  useEffect(() => {
-    async function fetchMissionData() {
-      try {
-        const res = await fetch("http://localhost:5000/api/page/get-page", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json"
-          },
-          body: JSON.stringify({ slug_url: "mission" })
-        });
-
-        if (!res.ok) {
-          throw new Error(`HTTP ${res.status}`);
-        }
-
-        const data = await res.json();
-        setPageData(data);
-        setLoading(false);
-      } catch (err) {
-        console.error("Error fetching mission data:", err);
-        setError(true);
-        setLoading(false);
-      }
+ useEffect(() => {
+  async function fetchMissionData() {
+    try {
+      const data = await fetchPageContent("mission");
+      setPageData(data);
+      setLoading(false);
+    } catch (err) {
+      console.error("Error fetching mission data:", err);
+      setError(true);
+      setLoading(false);
     }
+  }
 
-    fetchMissionData();
-  }, []);
+  fetchMissionData();
+}, []);
+
 
   if (loading) {
     return <div className="text-center pt40">Loading mission content...</div>;

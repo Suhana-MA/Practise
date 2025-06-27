@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
+import { fetchPageContent }  from "../../utils/api";
 
 type LinkColumn = {
   label: string;
@@ -29,34 +30,29 @@ export default function JoboyServices(): React.ReactElement {
   const [error, setError] = useState(false);
 
   useEffect(() => {
-    async function fetchServicePage() {
-      try {
-        const res = await fetch("http://localhost:5000/api/page/get-page", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ slug_url: "services" })
-        });
+  async function fetchServicePage() {
+    try {
+      const data = await fetchPageContent("services");
 
-        const data = await res.json();
-        if (!data || !data.content) throw new Error("Invalid response");
+      if (!data || !data.content) throw new Error("Invalid response");
 
-        const { bannerImage, heading, subheading, introText, sections } = data.content;
+      const { bannerImage, heading, subheading, introText, sections } = data.content;
 
-        setBannerImage(bannerImage);
-        setHeading(heading);
-        setSubheading(subheading);
-        setIntroText(introText);
-        setSections(sections || []);
-        setLoading(false);
-      } catch (err) {
-        console.error("Error fetching services:", err);
-        setError(true);
-        setLoading(false);
-      }
+      setBannerImage(bannerImage);
+      setHeading(heading);
+      setSubheading(subheading);
+      setIntroText(introText);
+      setSections(sections || []);
+      setLoading(false);
+    } catch (err) {
+      console.error("Error fetching services:", err);
+      setError(true);
+      setLoading(false);
     }
+  }
 
-    fetchServicePage();
-  }, []);
+  fetchServicePage();
+}, []);
 
   if (loading) return <div className="text-center pt40">Loading...</div>;
   if (error) return <div className="text-center pt40">Error loading services data.</div>;

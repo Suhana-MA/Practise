@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
+import { fetchPageContent } from "../../utils/api";
 
 type NewsItem = {
   title: string;
@@ -24,28 +25,23 @@ export default function NewsAndTestimonials(): React.ReactElement {
   const [content, setContent] = useState<HomeContent | null>(null);
 
   useEffect(() => {
-    async function fetchHomeContent() {
-      try {
-        const res = await fetch("http://localhost:5000/api/page/get-page", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ slug_url: "home" }),
+  async function fetchHomeContent() {
+    try {
+      const data = await fetchPageContent("home");
+      if (data && data.content) {
+        setContent({
+          news: data.content.news || [],
+          testimonials: data.content.testimonials || [],
         });
-
-        const data = await res.json();
-        if (data && data.content) {
-          setContent({
-            news: data.content.news || [],
-            testimonials: data.content.testimonials || [],
-          });
-        }
-      } catch (err) {
-        console.error("Failed to fetch Home content:", err);
       }
+    } catch (err) {
+      console.error("Failed to fetch Home content:", err);
     }
+  }
 
-    fetchHomeContent();
-  }, []);
+  fetchHomeContent();
+}, []);
+
 
  useEffect(() => {
     if (!content) return;

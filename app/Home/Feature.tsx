@@ -1,5 +1,7 @@
 "use client";
 import React, { useEffect, useState, useRef } from "react";
+import { fetchPageContent } from "../../utils/api";
+
 
 interface ServiceSliderItem {
   title: string;
@@ -36,27 +38,19 @@ export default function Feature(): React.ReactElement {
   const sliderRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    async function fetchData() {
-      try {
-        const res = await fetch("http://localhost:5000/api/page/get-page", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ slug_url: "home" }),
-        });
-        if (!res.ok) throw new Error("Failed to fetch");
-        const json = await res.json();
-        setData(json);
-      } catch (err) {
-        console.error("Fetch error:", err);
-        setError(true);
-      } finally {
-        setLoading(false);
-      }
+  async function fetchData() {
+    try {
+      const json = await fetchPageContent("home");
+      setData(json);
+    } catch (err) {
+      console.error("Fetch error:", err);
+      setError(true);
+    } finally {
+      setLoading(false);
     }
-    fetchData();
-  }, []);
+  }
+  fetchData();
+}, []);
 
   // Initialize slider functionality after data loads
  

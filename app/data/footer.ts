@@ -57,17 +57,17 @@ export const aboutJoboyLinks: FooterLink[] = [
   {
     id: 1,
     name: 'Our Mission',
-    url: '#',
+    url: '/Mission',
   },
   {
     id: 2,
     name: 'Careers',
-    url: '#',
+    url: '/Careers',
   },
   {
     id: 3,
     name: 'Contact Us',
-    url: '#',
+    url: '/Contact',
   },
   {
     id: 4,
