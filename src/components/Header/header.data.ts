@@ -5,7 +5,7 @@ export const buildNavigationItems = (countries: Country[]): NavigationItem[] => 
   {
     id: 1,
     name: "Home",
-    url: "/home",
+    url: "/Home",
   },
   {
     id: 2,
@@ -47,7 +47,7 @@ export const buildNavigationItems = (countries: Country[]): NavigationItem[] => 
 
 // API Call
 export const fetchCountries = async () => {
-  const response = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/country/list`, {
+  const response = await fetch(process.env.NEXT_PUBLIC_COUNTRY_API as string, {
     headers: {
       Authorization: process.env.NEXT_PUBLIC_API_AUTH || "",
       session: process.env.NEXT_PUBLIC_API_SESSION || "",
