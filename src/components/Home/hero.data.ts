@@ -23,14 +23,14 @@ export const heroData = {
 export const appDownloads = [
   {
     url: "https://play.google.com/store/apps/details?id=com.joboy.joboycustomer",
-    icon: "/joboyimages/playstore.png",
+    icon: "/joboyimages/google-play.svg",
     alt: "Google Play",
     supTitle: "Download on",
     title: "Google Play",
   },
   {
     url: "https://apps.apple.com/in/app/joboy/id1247211740",
-    icon: "/joboyimages/appstore.png",
+    icon: "/joboyimages/ios.png",
     alt: "App Store",
     supTitle: "Download on",
     title: "App Store",
